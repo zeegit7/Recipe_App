@@ -17,7 +17,8 @@ class Dashboard extends Component {
     this.state = {
     
       recipe_inventory: [],
-      edit_recipe_inventory:{}
+      edit_recipe_inventory:{},
+      delete_inventory:{}
 
     };
 
@@ -77,9 +78,32 @@ class Dashboard extends Component {
 
   }
 
-  handleDeleteRecipe(){
+  handleDeleteRecipe(i){
 
-    console.log("Delete!");
+    console.log("Delete clicked");
+
+    console.log(this.state.recipe_inventory[i].recipe_name)
+
+            //api call
+            // fetch(`${deleteRecipeUrl}`, {
+            //     method: 'GET',
+            //     credentials:'include',
+            //     mode: 'cors',
+            //     headers: { ...headers,'Content-Type': 'application/json' }
+            // }).then(res => res.json())
+            // .then(res => {
+            //   if(res){
+            //     console.log("res",res);
+            //     console.log("deleteFromInventory Success!!")
+            //     this.get_recipe_inventory();
+            //   }
+            //   else{
+            //     console.log("Error delete recipe");
+            //   }
+            //   }).catch(err => {
+            //         console.log("Server error delete recipe");
+            //         return err;
+            //         });
 
   }
 
