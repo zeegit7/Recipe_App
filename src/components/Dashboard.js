@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Button , Table} from 'react-bootstrap';
+import AddRecipe from './AddRecipe';
 import '../App.css';
 
 const headers = {
@@ -115,6 +116,12 @@ class Dashboard extends Component {
     
   }
 
+  handleAddRecipe(){
+
+    this.get_recipe_inventory();
+  
+  }
+
 
     render() {
 
@@ -150,6 +157,40 @@ class Dashboard extends Component {
       return (
 
         <div>
+
+          <Button bsStyle="primary" data-toggle="modal" data-target="#addRecipeModal">
+             Add Movie
+          </Button>
+
+                              <br>
+                              </br>
+
+                              
+                              <br>
+                              </br>
+
+                              <br>
+                              </br>
+
+
+          <div className="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                              <div className="modal-body">
+
+                                <div>
+                                  <AddRecipe handleAddRecipe = {this.handleAddRecipe.bind(this)}/> 
+                                </div>
+
+                              </div>
+                              <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                        </div>
+            </div>
+
 
             <Table className = "table table-striped" striped bordered condensed hover responsive>
                 <thead className="thead-dark">
