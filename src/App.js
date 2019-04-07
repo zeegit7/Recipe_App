@@ -7,6 +7,28 @@ import EditRecipe from './components/EditRecipe';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props){
+
+    super(props);
+
+    this.state = {
+
+      editRecipeData:{}
+
+    };
+
+  }
+
+  handleRecipeEdit(editData){
+
+    console.log("Edit data" ,editData);
+    this.state.editRecipeData = editData;
+    history.push("/editRecipe");
+  
+  }
+
+
   render() {
     return (
 
@@ -17,8 +39,8 @@ class App extends Component {
 
           <Switch>
 
-            <Route  exact path="/" component ={() => (<Dashboard/>)}/>
-            <Route  exact path="/editRecipe" component ={() => (<EditRecipe/>)}/> 
+            <Route  exact path="/" component ={() => (<Dashboard handleRecipeEdit={this.handleRecipeEdit.bind(this)}/>)}/>
+            <Route  exact path="/editRecipe" component ={() => (<EditRecipe editRecipeData={this.state.editRecipeData}/>)}/> 
             <Route component={Error} />
 
           </Switch>
