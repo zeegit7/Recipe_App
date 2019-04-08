@@ -91,26 +91,28 @@ class EditRecipe extends Component {
       <div>
 
         <form>
-            <label>
+            <label style={{width : '100%'}}>
+
+                <br></br>
+
                 <h1 className="text-muted">Edit {this.props.editRecipeData.recipe_name}</h1>
+
                 <br></br>
-                <input type="text" name="title"
-                    readOnly
-                    value = {this.props.editRecipeData.recipe_name}
+                <br></br>
+
+                <h3 className="text-muted">Ingredients</h3>
+
+                <input className="editR" type="text" name="ingredients"
+                        onChange= {(e)=>{this.editRecipeData.ingredients=e.target.value}}
+                        defaultValue = {this.props.editRecipeData.ingredients}
                 />
 
                 <br></br>
                 <br></br>
 
-                <input type="text" name="genre"
-                    onChange= {(e)=>{this.editRecipeData.ingredients=e.target.value}}
-                    defaultValue = {this.props.editRecipeData.ingredients}
-                />
+                <h3 className="text-muted">Instructions</h3>
 
-                <br></br>
-                <br></br>
-
-                <input type="text" name="year"
+                <input className="editR"  type="text" name="instructions"
                     onChange= {(e)=>{this.editRecipeData.instructions=e.target.value}}
                     defaultValue = {this.props.editRecipeData.instructions}
                 />
@@ -118,7 +120,9 @@ class EditRecipe extends Component {
                 <br></br>
                 <br></br>
 
-                <input type="text" name="studio"
+                <h3 className="text-muted">Serving_size</h3>
+
+                <input className="editR"  type="text" name="serving_size"
                     onChange= {(e)=>{this.editRecipeData.serving_size=e.target.value}}
                     defaultValue = {this.props.editRecipeData.serving_size}
                 />
@@ -126,7 +130,9 @@ class EditRecipe extends Component {
                 <br></br>
                 <br></br>
 
-                <input type="text" name="synopsis"
+                <h3 className="text-muted">Category</h3>
+
+                <input className="editR"  type="text" name="category"
                     onChange= {(e)=>{this.editRecipeData.category=e.target.value}}
                     defaultValue = {this.props.editRecipeData.category}
                 />
@@ -134,8 +140,10 @@ class EditRecipe extends Component {
                 <br></br>
                 <br></br>
 
+                <h3 className="text-muted">Notes</h3>
 
-                <input type="text" name="actors"
+
+                <input className="editR"  type="text" name="notes"
                     onChange= {(e)=>{this.editRecipeData.notes=e.target.value}}
                     defaultValue = {this.props.editRecipeData.notes}
                 />
@@ -154,7 +162,7 @@ class EditRecipe extends Component {
                 Edit
             </Button>
 
-            <Button bsStyle="primary" onClick={()=> {this.handleCancelEditRecipe()}}>
+            <Button bsStyle="primary" style={{marginLeft : 10}} onClick={()=> {this.handleCancelEditRecipe()}}>
                 Cancel
             </Button>
 

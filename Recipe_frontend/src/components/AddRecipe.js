@@ -14,6 +14,14 @@ class AddRecipe extends Component {
     constructor(){
 
         super();
+
+        this.state={
+
+            errors : [],
+            showErrorMessages:false,
+            messageType : "alert alert-light" 
+  
+          };
  
         this.newRecipe = {
 
@@ -38,19 +46,29 @@ class AddRecipe extends Component {
 
     handleAddRecipe(e){
 
+        this.state.errors=[];
+        this.setState({messageType:"alert-alert-light"})
+
         console.log(" In handleAddRecipe")
 
         console.log("newRecipe",this.newRecipe);
 
         if(!this.newRecipe.recipe_name || !this.newRecipe.ingredients || !this.newRecipe.instructions  || !this.newRecipe.serving_size
-             || !this.newRecipe.category || !this.newRecipe.notes ){
+             || !this.newRecipe.category){
 
-            console.log("All fields are mandatory!");
+            this.state.errors.push("Enter all mandatory fields!");
         }
 
-        if(this.newRecipe.serving_size == NaN){
-            console.log("Serving size must be number!")
+        if(isNaN(this.newRecipe.serving_size)){
+
+            this.state.errors.push("Enter valid serving size!");
+
         }
+
+        if(this.state.errors.length>0){
+            this.setState({messageType:"alert alert-danger"})
+            return
+          }
 
             //api call
         fetch(`${addRecipeUrl}`, {
@@ -63,6 +81,8 @@ class AddRecipe extends Component {
         .then(res => {
             console.log("res",res)
                 console.log("Add Recipe Success!!")
+                this.state.errors=[];
+                this.setState({messageType:"alert alert-light"})
                 alert("Recipe add successsful");
                 this.props.handleAddRecipe();
             }).catch(err => {
@@ -79,39 +99,60 @@ class AddRecipe extends Component {
 
   render() {
 
+    let errors = this.state.errors.map((error, i)=>{
+        return(
+
+            <div className="alert alert-danger" role="alert">
+                {error}
+            </div>
+
+    )});
+
     return (
       <div >
+
+        <div className = "container">
+
+            <div className={this.state.messageType}>
+
+                {errors}
+
+            </div>
+
+        </div>
+
+        <br></br>
 
             <form id="add-recipe-form">
                     <div className="container-fluid">
                       <div className="row">
                         <div className="col-md-12">
-                            <input  name="recipe_name" placeholder ="Enter recipe_name" required = {true} onChange= {(e)=>{this.newRecipe.recipe_name=e.target.value}}/>
+                            <input className = "inp"  name="recipe_name" placeholder ="Enter recipe_name" required = {true} onChange= {(e)=>{this.newRecipe.recipe_name=e.target.value}}/>
                         </div>
                         <br></br>
                         <br></br>
                         <div className="col-md-12">
-                            <input name="ingredients" placeholder ="Enter ingredients" onChange= {(e)=>{this.newRecipe.ingredients=e.target.value}}/>
+                            <input className = "inp" name="ingredients" placeholder ="Enter ingredients" onChange= {(e)=>{this.newRecipe.ingredients=e.target.value}}/>
                         </div>
                         <br></br>
                         <br></br>
                         <div className="col-md-12">
-                            <input name="instructions" placeholder ="Enter instructions" onChange= {(e)=>{this.newRecipe.instructions=e.target.value}}/>
+                            <input className = "inp" name="instructions" placeholder ="Enter instructions" onChange= {(e)=>{this.newRecipe.instructions=e.target.value}}/>
                         </div>
                         <br></br>
                         <br></br>
                         <div className="col-md-12">
-                            <input name="serving_size"  placeholder ="Enter serving_size" required = {true} onChange= {(e)=>{this.newRecipe.serving_size=e.target.value}}/>   
+                            <input className = "inp" name="serving_size"  placeholder ="Enter serving_size" required = {true} onChange= {(e)=>{this.newRecipe.serving_size=e.target.value}}/>   
                         </div>
                         <br></br>
                         <br></br>
                         <div className="col-md-12">
-                            <input name="category"  placeholder ="Enter category" onChange= {(e)=>{this.newRecipe.category=e.target.value}}/>
+                            <input className = "inp" name="category"  placeholder ="Enter category" onChange= {(e)=>{this.newRecipe.category=e.target.value}}/>
                         </div>
                         <br></br>
                         <br></br>
                         <div className="col-md-12">
-                        <input name="notes"  placeholder ="Enter notes" onChange= {(e)=>{this.newRecipe.notes=e.target.value}}/>
+                        <input  className = "inp" name="notes"  placeholder ="Enter notes" onChange= {(e)=>{this.newRecipe.notes=e.target.value}}/>
 
                         </div>
                         <br></br>

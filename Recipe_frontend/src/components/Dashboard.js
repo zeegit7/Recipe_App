@@ -106,7 +106,6 @@ class Dashboard extends Component {
   
   }
 
-
     render() {
 
       let recipe_inventory = this.state.recipe_inventory.map((inventoryItem, i)=>{
@@ -126,7 +125,7 @@ class Dashboard extends Component {
 
             <td>{inventoryItem.notes}</td>
 
-            <td>{inventoryItem.date_added}</td>
+            <td>{inventoryItem.date_added.slice(0,16)}</td>
 
             <td>{inventoryItem.date_modified}</td>
 
@@ -142,57 +141,67 @@ class Dashboard extends Component {
 
         <div>
 
-          <br></br>
+          <div className="row">
+            <div className="col-sm-1"></div>
+              <div className="col-sm-10">
 
-          <Button bsStyle="primary" data-toggle="modal" data-target="#addRecipeModal">
-             Add Recipe
-          </Button>
+                <br></br>
 
-          <br></br>
+                <br></br>
 
-          <br></br>
+                <Button bsStyle="primary" data-toggle="modal" data-target="#addRecipeModal">
+                  Add Recipe
+                </Button>
 
-          <br></br>
+                <br></br>
 
-          <div className="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <br></br>
 
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                              <div className="modal-body">
+                <br></br>
 
-                                <div>
-                                  <AddRecipe handleAddRecipe = {this.handleAddRecipe.bind(this)}/> 
-                                </div>
+                <div className="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
+                              <div className="modal-dialog" role="document">
+                                  <div className="modal-content">
+                                    <div className="modal-body">
+
+                                      <div>
+                                        <AddRecipe handleAddRecipe = {this.handleAddRecipe.bind(this)}/> 
+                                      </div>
+
+                                    </div>
+                                    <div className="modal-footer">
+                                      <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
                               </div>
-                              <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-                        </div>
+                  </div>
+
+
+                  <Table className = "table table-striped" striped bordered condensed hover responsive>
+                      <thead style = {{background : 'black'}}>
+                          <tr>
+                          <th style={{color:'white'}}>Recipe_Name</th>
+                          <th style={{color:'white'}}>Ingredients</th>
+                          <th style={{color:'white'}}>Instructions</th>
+                          <th style={{color:'white'}}>Serving_Size(gm)</th>
+                          <th style={{color:'white'}}>Category</th>
+                          <th style={{color:'white'}}>Notes</th>
+                          <th style={{color:'white'}}>Date_Added</th>
+                          <th style={{color:'white'}}>Date_Modified</th>
+                          <th style={{color:'white'}}>Edit</th>
+                          <th style={{color:'white'}}>Delete</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {recipe_inventory}
+                      </tbody>
+                    </Table>
+
             </div>
 
+          </div>
 
-            <Table className = "table table-striped" striped bordered condensed hover responsive>
-                <thead className="thead-dark">
-                    <tr>
-                    <th>Recipe_Name</th>
-                    <th>Ingredients</th>
-                    <th>Instructions</th>
-                    <th>Serving_Size</th>
-                    <th>Category</th>
-                    <th>Notes</th>
-                    <th>Date_Added</th>
-                    <th>Date_Modified</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {recipe_inventory}
-                </tbody>
-              </Table>
- 
         </div>
         
       );
