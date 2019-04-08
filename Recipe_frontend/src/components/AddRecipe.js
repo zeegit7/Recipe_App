@@ -6,6 +6,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
+const addRecipeUrl = 'http://localhost:5000/';
+
 
 class AddRecipe extends Component {
 
@@ -46,23 +48,28 @@ class AddRecipe extends Component {
             console.log("All fields are mandatory!");
         }
 
+        if(this.newRecipe.serving_size == NaN){
+            console.log("Serving size must be number!")
+        }
+
             //api call
-        // fetch(`${addRecipeUrl}`, {
-        //     method: 'POST',
-        //     credentials:'include',
-        //     mode: 'cors',
-        //     headers: { ...headers,'Content-Type': 'application/json' },
-        //     body: JSON.stringify(this.newRecipe)
-        // }).then(res => res.json())
-        // .then(res => {
-        //     console.log("res",res)
-        //         console.log("Add Recipe Success!!")
-        //         alert("Recipe add successsful");
-        //         this.props.handleAddRecipe();
-        //     }).catch(err => {
-        //         console.log("Add Recipe server error");
-        //         return err;
-        //         });
+        fetch(`${addRecipeUrl}`, {
+            method: 'POST',
+            credentials:'include',
+            mode: 'cors',
+            headers: { ...headers,'Content-Type': 'application/json' },
+            body: JSON.stringify(this.newRecipe)
+        })
+        .then(res => {
+            console.log("res",res)
+                console.log("Add Recipe Success!!")
+                alert("Recipe add successsful");
+                this.props.handleAddRecipe();
+            }).catch(err => {
+                console.log("Add Recipe server error");
+                return err;
+                });
+
 
 
         this.resetAddForm();
