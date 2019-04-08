@@ -2,6 +2,7 @@ from flask import Flask,jsonify,request
 from flaskext.mysql import MySQL
 from flask_cors import CORS
 import yaml
+import datetime
 
 
 #setting app varibale o an instance of the flask class
@@ -64,7 +65,7 @@ def delete_recipe():
 
 
 
-@app.route("/", methods=["POST"])
+@app.route("/", methods=["POST", "PUT"])
 def add_recipe():
     req_data = request.get_json()
     recipe_name = req_data['recipe_name']
@@ -73,24 +74,42 @@ def add_recipe():
     serving_size = req_data['serving_size']
     category = req_data['category']
     notes = req_data['notes']
+    now = datetime.datetime.now()
+    print(now)
     print(req_data)
     conn = mysql.get_db()
     cursor = conn.cursor()
-    if(cursor.execute(
-        """INSERT INTO
-             recipes (
-                 recipe_name, 
-                 ingredients, 
-                 instructions, 
-                 serving_size, 
-                 category, 
-                 notes
-                 )
-         VALUES (%s, %s, %s, %s, %s, %s)""", (recipe_name,ingredients,instructions,int(serving_size),category,notes))):
-        conn.commit()
-        cursor.close()
-        return jsonify('Added the  recipe'),204
-    return jsonify('Add failed'),400
+    if request.method == "POST":
+        cursor.execute(
+            """INSERT INTO
+                recipes (
+                    recipe_name, 
+                    ingredients, 
+                    instructions, 
+                    serving_size, 
+                    category, 
+                    notes,
+                    date_added
+                    )
+            VALUES (%s, %s, %s, %s, %s, %s, %s)""", (recipe_name,ingredients,instructions,int(serving_size),category,notes,now))
+    elif request.method == "PUT":
+        cursor.execute(
+            """UPDATE 
+                recipes SET
+                    ingredients = %s, 
+                    instructions = %s, 
+                    serving_size = %s, 
+                    category = %s, 
+                    notes= %s,
+                    date_modified = %s
+                    WHERE recipe_name = %s
+                        """, (ingredients,instructions,int(serving_size),category,notes,now,recipe_name))
+    conn.commit()
+    cursor.close()
+    return jsonify('Added/Updated the recipe'),204
+    #return jsonify('Add failed'),400
+    
+
     
 
 
