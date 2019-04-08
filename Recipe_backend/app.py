@@ -56,10 +56,41 @@ def delete_recipe():
     conn = mysql.get_db()
     cursor = conn.cursor()
     del_query = "DELETE FROM recipes WHERE recipe_name LIKE %s"
-    cursor.execute(del_query, recipe_name)
-    conn.commit()
-    cursor.close()
-    return jsonify('Deleted the the result'),204
+    if(cursor.execute(del_query, recipe_name)):
+        conn.commit()
+        cursor.close()
+        return jsonify('Deleted the  recipe'),204
+    return jsonify('Deleted failed'),400
+
+
+
+@app.route("/", methods=["POST"])
+def add_recipe():
+    req_data = request.get_json()
+    recipe_name = req_data['recipe_name']
+    ingredients = req_data['ingredients']
+    instructions = req_data['instructions']
+    serving_size = req_data['serving_size']
+    category = req_data['category']
+    notes = req_data['notes']
+    print(req_data)
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    if(cursor.execute(
+        """INSERT INTO
+             recipes (
+                 recipe_name, 
+                 ingredients, 
+                 instructions, 
+                 serving_size, 
+                 category, 
+                 notes
+                 )
+         VALUES (%s, %s, %s, %s, %s, %s)""", (recipe_name,ingredients,instructions,int(serving_size),category,notes))):
+        conn.commit()
+        cursor.close()
+        return jsonify('Added the  recipe'),204
+    return jsonify('Add failed'),400
     
 
 
