@@ -1,6 +1,5 @@
-from flask import Flask
+from flask import Flask,jsonify,request
 from flaskext.mysql import MySQL
-from flask import jsonify
 from flask_cors import CORS
 import yaml
 
@@ -28,7 +27,7 @@ mysql = MySQL(app)
 @app.route("/", methods = ['GET'])
 def get_recipes():
     cursor = mysql.get_db().cursor()
-    result = cursor.execute("SELECT * from recipes")
+    result = cursor.execute("SELECT * from recipes;")
     if result > 0:
         recipes = cursor.fetchall()
         all_recipes = []
@@ -44,8 +43,23 @@ def get_recipes():
                 'date_modified' : recipes[x][7]
             }
             all_recipes.append(new_recipe)
+            cursor.close()
         return jsonify(all_recipes),201
-    return 400
+    return ('No data!'),400
+
+
+@app.route("/", methods=["DELETE"])
+def delete_recipe():
+    req_data = request.get_json()
+    recipe_name = req_data['recipe_name']
+    print(recipe_name)
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    del_query = "DELETE FROM recipes WHERE recipe_name LIKE %s"
+    cursor.execute(del_query, recipe_name)
+    conn.commit()
+    cursor.close()
+    return jsonify('Deleted the the result'),204
     
 
 
