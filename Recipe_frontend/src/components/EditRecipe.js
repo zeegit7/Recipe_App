@@ -7,6 +7,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
+const editRecipeUrl = 'http://localhost:5000/';
+
 
 class EditRecipe extends Component {
 
@@ -56,25 +58,20 @@ class EditRecipe extends Component {
         console.log("editRecipeData",this.editRecipeData);
 
         //api call
-        // fetch(`${editRecipeUrl}`, {
-        //     method: 'POST',
-        //     credentials:'include',
-        //     mode: 'cors',
-        //     headers: { ...headers,'Content-Type': 'application/json' },
-        //     body: JSON.stringify(this.editRecipeData)
-        // }).then(res => res.json())
-        // .then(res => {
-        //     if(res){
-        //         console.log("Edit Recipe Success!!")
-        //         history.push("/");
-        //       }
-        //     else{
-        //         console.log("Edit Recipe error!!")
-        //       }
-        //     }).catch(err => {
-        //         console.log("Server error Edit Recipe!!!");
-        //         return err;
-        //         });
+        fetch(`${editRecipeUrl}`, {
+            method: 'PUT',
+            credentials:'include',
+            mode: 'cors',
+            headers: { ...headers,'Content-Type': 'application/json' },
+            body: JSON.stringify(this.editRecipeData)
+        })
+        .then(res => {
+                console.log("Edit Recipe Success!!")
+                history.push("/");
+            }).catch(err => {
+                console.log("Server error Edit Recipe!!!");
+                return err;
+                });
 
 
     }

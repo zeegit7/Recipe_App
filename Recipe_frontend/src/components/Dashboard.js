@@ -142,20 +142,17 @@ class Dashboard extends Component {
 
         <div>
 
+          <br></br>
+
           <Button bsStyle="primary" data-toggle="modal" data-target="#addRecipeModal">
              Add Recipe
           </Button>
 
-                              <br>
-                              </br>
+          <br></br>
 
-                              
-                              <br>
-                              </br>
+          <br></br>
 
-                              <br>
-                              </br>
-
+          <br></br>
 
           <div className="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
