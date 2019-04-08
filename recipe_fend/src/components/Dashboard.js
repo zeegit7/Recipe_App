@@ -3,6 +3,8 @@ import {Button , Table} from 'react-bootstrap';
 import AddRecipe from './AddRecipe';
 import '../App.css';
 
+const getRecipeInventoryUrl = 'http://localhost:5000/';
+
 const headers = {
   'Accept': 'application/json'
 };
@@ -30,44 +32,44 @@ class Dashboard extends Component {
     console.log("get_recipe_inventory called!")
 
 
-    this.setState({recipe_inventory:      
-      [
-        {
-          "recipe_name":"abc",
-          "ingredients":"abc",
-          "instructions":"abc",
-          "serving_size":"abc",
-          "category":"abc",
-          "notes":"abc",
-          "date_added":"abc",
-          "date_modified":"abc"
+    // this.setState({recipe_inventory:      
+    //   [
+    //     {
+    //       "recipe_name":"abc",
+    //       "ingredients":"abc",
+    //       "instructions":"abc",
+    //       "serving_size":"abc",
+    //       "category":"abc",
+    //       "notes":"abc",
+    //       "date_added":"abc",
+    //       "date_modified":"abc"
 
-        }
-      ]
-    });
+    //     }
+    //   ]
+    // });
 
-    console.log(this.state.recipe_inventory);
+    //console.log(this.state.recipe_inventory);
 
     //api call
 
-    // fetch(`${getRecipeInventoryUrl}`, {
-    //   method: 'GET',
-    //   credentials:'include',
-    //   mode: 'cors',
-    //   headers: { ...headers,'Content-Type': 'application/json'}
-    // }).then(res => res.json())
-    //   .then(res => {
-    //       if(res){
-    //         console.log("res", res);
-    //         this.setState({recipe_inventory: res})
-    //       }
-    //       else{
-    //           console.log("no data!")
-    //         }
-    //   }).catch(err => {
-    //       console.log("Server error!!!",err);
-    //       return err;
-    //       });
+    fetch(`${getRecipeInventoryUrl}`, {
+      method: 'GET',
+      credentials:'include',
+      mode: 'cors',
+      headers: { ...headers,'Content-Type': 'application/json'}
+    }).then(res => res.json())
+      .then(res => {
+          if(res){
+            console.log("res", res);
+            this.setState({recipe_inventory: res})
+          }
+          else{
+              console.log("no data!")
+            }
+      }).catch(err => {
+          console.log("Server error!!!",err);
+          return err;
+          });
 
 
 
@@ -159,7 +161,7 @@ class Dashboard extends Component {
         <div>
 
           <Button bsStyle="primary" data-toggle="modal" data-target="#addRecipeModal">
-             Add Movie
+             Add Recipe
           </Button>
 
                               <br>
