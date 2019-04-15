@@ -5,7 +5,7 @@ import yaml
 import datetime
 
 
-#setting app varibale o an instance of the flask class
+#setting app varibale as an instance of the flask class
 #__name__ depicts name of the module
 app = Flask(__name__)
 
@@ -46,10 +46,12 @@ def get_recipes():
                 }
                 all_recipes.append(new_recipe)
                 cursor.close()
-            return jsonify(all_recipes),201
+            return jsonify(all_recipes),200
+        else:
+            return jsonify('No data!'),404
     except Exception as err:
         print(str(err))
-        return ('No data!'),400
+        return ('Error occured!'),500
 
 
 @app.route("/", methods=["DELETE"])
@@ -57,17 +59,17 @@ def delete_recipe():
     try:
         req_data = request.get_json()
         recipe_name = req_data['recipe_name']
-        print(recipe_name)
+        #print(recipe_name)
         conn = mysql.get_db()
         cursor = conn.cursor()
         del_query = "DELETE FROM recipes WHERE recipe_name LIKE %s"
         if(cursor.execute(del_query, recipe_name)):
             conn.commit()
             cursor.close()
-            return jsonify('Deleted the  recipe'),204
+            return jsonify('Deleted the  recipe'),200
     except Exception as err:
         print(str(err))
-        return jsonify('Deleted failed'),400
+        return jsonify('Delete failed'),500
 
 
 
@@ -81,11 +83,8 @@ def add_recipe():
     category = req_data['category']
     notes = req_data['notes']
     now = datetime.datetime.now()
-
-
-
-    print(now)
-    print(req_data)
+    #print(now)
+    #print(req_data)
     try:
         conn = mysql.get_db()
         cursor = conn.cursor()
@@ -116,10 +115,13 @@ def add_recipe():
                             """, (ingredients,instructions,int(serving_size),category,notes,now,recipe_name))
         conn.commit()
         cursor.close()
-        return jsonify('Added/Updated the recipe'),204
+        if request.method == "POST":
+            return jsonify('Added the recipe'),201
+        elif request.method == "PUT":
+            return jsonify('Updated the recipe'),200
     except Exception as err:
         print(str(err))
-        return jsonify('Add/Update recipe failed'),400
+        return jsonify('Add/Update recipe failed'),500
     
 
     
